@@ -15,13 +15,6 @@ source project_venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Or use the provided setup script:
-
-```bash
-source python_env.sh
-pip install -r requirements.txt
-```
-
 ## Getting Your LinkedIn Contacts
 
 1. Go to [linkedin.com](https://www.linkedin.com) and log in
@@ -88,7 +81,3 @@ Contacts are sorted by number of mentions (highest first).
 - Common names may produce false positives—review the context excerpts to verify relevance
 - The Epstein files are searched via an API that indexes the publicly released court documents hosted at justice.gov
 
-## Data Sources
-
-- LinkedIn connections: Your personal data export
-- Epstein files: [U.S. Department of Justice - United States v. Epstein](https://www.justice.gov/usao-sdny/united-states-v-epstein)
