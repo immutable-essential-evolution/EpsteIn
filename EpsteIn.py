@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Search Epstein files for mentions of LinkedIn contacts.
+Search Epstein files for mentions of LinkedIn connections.
 
 Usage:
-    python EpsteIn.py --contacts <linkedin_csv> [--output <report.html>]
+    python EpsteIn.py --connections <linkedin_csv> [--output <report.html>]
 
 Prerequisites:
     pip install requests
@@ -113,7 +113,7 @@ def generate_html_report(results, output_path):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EpsteIn: Which LinkedIn Contacts Appear in the Epstein Files?</title>
+    <title>EpsteIn: Which LinkedIn Connections Appear in the Epstein Files?</title>
     <style>
         * {{
             box-sizing: border-box;
@@ -215,8 +215,8 @@ def generate_html_report(results, output_path):
     {logo_html}
 
     <div class="summary">
-        <strong>Total contacts searched:</strong> {len(results)}<br>
-        <strong>Contacts with mentions:</strong> {contacts_with_mentions}
+        <strong>Total connections searched:</strong> {len(results)}<br>
+        <strong>Connections with mentions:</strong> {contacts_with_mentions}
     </div>
 """
 
@@ -285,10 +285,10 @@ def main():
         sys.exit(1)
 
     parser = argparse.ArgumentParser(
-        description='Search Epstein files for mentions of LinkedIn contacts'
+        description='Search Epstein files for mentions of LinkedIn connections'
     )
     parser.add_argument(
-        '--contacts', '-c',
+        '--connections', '-c',
         required=False,
         help='Path to LinkedIn connections CSV export'
     )
@@ -300,9 +300,9 @@ def main():
     args = parser.parse_args()
 
     # Validate inputs
-    if not args.contacts:
+    if not args.connections:
         print("""
-No contacts file specified.
+No connections file specified.
 
 To export your LinkedIn connections:
   1. Go to linkedin.com and log in
@@ -316,21 +316,21 @@ To export your LinkedIn connections:
   9. Download and extract the ZIP file
   10. Use the Connections.csv file with this script:
 
-     python EpsteIn.py --contacts /path/to/Connections.csv
+     python EpsteIn.py --connections /path/to/Connections.csv
 """)
         sys.exit(1)
 
-    if not os.path.exists(args.contacts):
-        print(f"Error: Contacts file not found: {args.contacts}", file=sys.stderr)
+    if not os.path.exists(args.connections):
+        print(f"Error: Connections file not found: {args.connections}", file=sys.stderr)
         sys.exit(1)
 
-    # Parse LinkedIn contacts
-    print(f"Reading LinkedIn contacts from: {args.contacts}")
-    contacts = parse_linkedin_contacts(args.contacts)
-    print(f"Found {len(contacts)} contacts")
+    # Parse LinkedIn connections
+    print(f"Reading LinkedIn connections from: {args.connections}")
+    contacts = parse_linkedin_contacts(args.connections)
+    print(f"Found {len(contacts)} connections")
 
     if not contacts:
-        print("No contacts found in CSV. Check the file format.", file=sys.stderr)
+        print("No connections found in CSV. Check the file format.", file=sys.stderr)
         sys.exit(1)
 
     # Search for each contact
@@ -373,15 +373,15 @@ To export your LinkedIn connections:
     print(f"\n{'='*60}")
     print("SUMMARY")
     print(f"{'='*60}")
-    print(f"Total contacts searched: {len(contacts)}")
-    print(f"Contacts with mentions: {len(contacts_with_mentions)}")
+    print(f"Total connections searched: {len(contacts)}")
+    print(f"Connections with mentions: {len(contacts_with_mentions)}")
 
     if contacts_with_mentions:
         print(f"\nTop mentions:")
         for r in contacts_with_mentions[:20]:
             print(f"  {r['total_mentions']:6,} - {r['name']}")
     else:
-        print("\nNo contacts found in the Epstein files.")
+        print("\nNo connections found in the Epstein files.")
 
     print(f"\nFull report saved to: {args.output}")
 
